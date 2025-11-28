@@ -130,6 +130,10 @@
         .invert-on-hover:hover {
             filter: invert(1);
         }
+        
+        .hidden-page {
+            display: none;
+        }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black min-h-screen flex flex-col items-center pt-4 pb-12">
@@ -141,144 +145,225 @@
     <div class="paper-fold-h"></div>
 
     <!-- MAIN POSTER CONTAINER -->
-    <main class="relative z-10 w-full max-w-[1400px] bg-black shadow-2xl overflow-hidden min-h-screen border-x-4 border-white/10">
+    <main class="relative z-10 w-full max-w-[1400px] bg-black shadow-2xl overflow-hidden min-h-screen border-x-4 border-white/10 flex flex-col">
         
-        <!-- TOP SECTION: HEADER & COLLAGE -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 border-b-8 border-white bg-white">
-            
-            <!-- LOGO AREA (Top Left) -->
-            <div class="lg:col-span-5 bg-[#e5e5e5] p-6 flex flex-col justify-center items-start relative overflow-hidden border-b-4 lg:border-b-0 lg:border-r-4 border-black min-h-[250px]">
-                <!-- Circuit background blended -->
-                <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center grayscale contrast-150"></div>
+        <!-- HOME VIEW -->
+        <div id="home-view">
+            <!-- TOP SECTION: HEADER & COLLAGE -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 border-b-8 border-white bg-white">
                 
-                <div class="relative z-10 w-full">
-                    <img src="expandedLogo.jpg" alt="8SPINE" class="w-full max-w-[400px] mix-blend-multiply filter contrast-125 brightness-110">
+                <!-- LOGO AREA (Top Left) -->
+                <div class="lg:col-span-5 bg-[#e5e5e5] p-6 flex flex-col justify-center items-start relative overflow-hidden border-b-4 lg:border-b-0 lg:border-r-4 border-black min-h-[250px]">
+                    <!-- Circuit background blended -->
+                    <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center grayscale contrast-150"></div>
+                    
+                    <div class="relative z-10 w-full">
+                        <img src="expandedLogo.png" alt="8SPINE" class="w-full max-w-[400px] mix-blend-multiply filter contrast-125 brightness-110">
+                    </div>
+                    <div class="absolute bottom-2 left-2 font-mono-raw text-[10px] text-black bg-white px-1">
+                        [AUDIO_ARCHIVE_PROTOCOL_V.1]
+                    </div>
                 </div>
-                <div class="absolute bottom-2 left-2 font-mono-raw text-[10px] text-black bg-white px-1">
-                    [AUDIO_ARCHIVE_PROTOCOL_V.1]
+
+                <!-- WAVEFORM / TEXTURE AREA (Top Right) -->
+                <div class="lg:col-span-7 bg-black relative h-[250px] overflow-hidden flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="absolute inset-0 w-full h-full object-cover opacity-50 grayscale contrast-150 mix-blend-screen">
+                    <img src="https://images.unsplash.com/photo-1614726365723-49aeaa4840e6?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale mix-blend-color-dodge">
+                    
+                    <!-- Floating geometric shape -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-[10px] border-white/80 w-32 h-32 rotate-45 mix-blend-difference"></div>
+                    
+                    <!-- Scrolling Data -->
+                    <div class="absolute bottom-0 w-full bg-white text-black font-mono-raw text-xs whitespace-nowrap py-1 overflow-hidden">
+                        <div class="animate-[marquee_10s_linear_infinite]">
+                            NO CLOUD /// NO ALGORITHMS /// PURE DATA /// 100% FREE /// NO CLOUD /// NO ALGORITHMS /// PURE DATA /// 100% FREE
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- WAVEFORM / TEXTURE AREA (Top Right) -->
-            <div class="lg:col-span-7 bg-black relative h-[250px] overflow-hidden flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="absolute inset-0 w-full h-full object-cover opacity-50 grayscale contrast-150 mix-blend-screen">
-                <img src="https://images.unsplash.com/photo-1614726365723-49aeaa4840e6?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale mix-blend-color-dodge">
+            <!-- MAIN HEADLINE -->
+            <div class="bg-white px-4 py-2 border-b-8 border-black">
+                <h1 class="text-6xl md:text-8xl lg:text-[7rem] leading-[0.85] text-black text-center tracking-tighter uppercase break-words" style="word-spacing: -0.2em;">
+                    Listen to what <br>
+                    <span class="bg-black text-white px-4">you want.</span>
+                </h1>
+                <h2 class="text-3xl md:text-5xl text-black text-center mt-2 uppercase tracking-wide">
+                    The Modular Music Platform.
+                </h2>
+            </div>
+
+            <!-- SUB TEXT / STICKER BOMB AREA -->
+            <div class="relative bg-black p-0 grid grid-cols-1 md:grid-cols-2">
                 
-                <!-- Floating geometric shape -->
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-[10px] border-white/80 w-32 h-32 rotate-45 mix-blend-difference"></div>
+                <!-- LEFT: TEXT BLOCK -->
+                <div class="p-8 md:p-12 border-b md:border-b-0 md:border-r border-white/20 flex flex-col justify-center gap-6 bg-[url('https://www.transparenttextures.com/patterns/cardboard-flat.png')]">
+                    <div class="bg-white text-black p-4 transform -rotate-1 shadow-[8px_8px_0px_0px_rgba(50,50,50,1)]">
+                        <p class="text-2xl md:text-3xl uppercase font-bold leading-none mb-4">
+                            Break the algorithm. <br>Fuck the mainstream. <br>Build your sound.
+                        </p>
+                        <p class="font-mono-raw text-sm md:text-base border-t-2 border-black pt-2 mt-2">
+                            Emo electronic noise. Raw and brutal. Rad. Your ears, your choice. 
+                        </p>
+                    </div>
+
+                    <div class="bg-black border-2 border-white p-4 text-white font-mono-raw text-xs leading-relaxed">
+                        > SYSTEM_STATUS: ONLINE<br>
+                        > LICENSE: FREEWARE (PROBABLY)<br>
+                        > DEV: MORGK<br>
+                        > NOTE: I LIE A LOT BUT THIS IS FREE.
+                    </div>
+                </div>
+
+                <!-- RIGHT: KNOBS & CONTROLS -->
+                <div class="relative h-[400px] md:h-auto bg-[#1a1a1a] overflow-hidden flex flex-col">
+                    <!-- Background texture -->
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1563884061844-306915017c2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center grayscale contrast-[2] opacity-30"></div>
+                    
+                    <!-- Knobs Simulation -->
+                    <div class="relative z-10 flex-1 grid grid-cols-2 gap-4 p-8">
+                        <!-- Knob 1 -->
+                        <div class="flex flex-col items-center justify-center gap-2">
+                            <div class="w-20 h-20 rounded-full border-4 border-white bg-[#111] shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center justify-center relative transform rotate-45">
+                                <div class="w-1 h-8 bg-white absolute top-1"></div>
+                            </div>
+                            <span class="bg-white text-black px-2 text-sm font-bold">CREATE</span>
+                        </div>
+                        <!-- Knob 2 -->
+                        <div class="flex flex-col items-center justify-center gap-2">
+                            <div class="w-20 h-20 rounded-full border-4 border-white bg-[#111] flex items-center justify-center relative transform -rotate-12">
+                                <div class="w-1 h-8 bg-white absolute top-1"></div>
+                            </div>
+                            <span class="bg-white text-black px-2 text-sm font-bold">CONNECT</span>
+                        </div>
+                        <!-- Knob 3 -->
+                        <div class="flex flex-col items-center justify-center gap-2">
+                            <div class="w-20 h-20 rounded-full border-4 border-white bg-[#111] flex items-center justify-center relative transform rotate-90">
+                                <div class="w-1 h-8 bg-white absolute top-1"></div>
+                            </div>
+                            <span class="bg-white text-black px-2 text-sm font-bold">DESTROY</span>
+                        </div>
+                        <!-- Knob 4 -->
+                        <div class="flex flex-col items-center justify-center gap-2">
+                            <div class="w-20 h-20 rounded-full border-4 border-white bg-[#111] flex items-center justify-center relative transform rotate-180">
+                                <div class="w-1 h-8 bg-white absolute top-1"></div>
+                            </div>
+                            <span class="bg-white text-black px-2 text-sm font-bold">MODULATE</span>
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-4 right-4 z-20">
+                        <i data-lucide="star" class="w-12 h-12 text-white fill-current animate-spin-slow"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIPPED PAPER CTA -->
+            <div class="bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')] bg-gray-900 py-16 px-4 flex justify-center items-center relative overflow-hidden">
+                <!-- Glitch lines -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-white opacity-20"></div>
+                <div class="absolute bottom-10 left-0 w-full h-2 bg-white opacity-10"></div>
                 
-                <!-- Scrolling Data -->
-                <div class="absolute bottom-0 w-full bg-white text-black font-mono-raw text-xs whitespace-nowrap py-1 overflow-hidden">
-                    <div class="animate-[marquee_10s_linear_infinite]">
-                        NO CLOUD /// NO ALGORITHMS /// PURE DATA /// 100% FREE /// NO CLOUD /// NO ALGORITHMS /// PURE DATA /// 100% FREE
+                <div class="relative z-10 max-w-2xl w-full text-center">
+                    <button onclick="toggleView('releases')" class="ripped-paper w-full group transition-transform hover:scale-105 active:scale-95 duration-100 cursor-pointer">
+                        <div class="border-4 border-black p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div class="text-left">
+                                <h3 class="text-3xl md:text-5xl font-black uppercase leading-none">Crack the Code.</h3>
+                                <p class="font-mono-raw text-sm mt-1">iOS / ANDROID INSTALLER</p>
+                            </div>
+                            <div class="bg-black text-white px-6 py-3 text-xl font-bold uppercase whitespace-nowrap hover:bg-red-600 transition-colors">
+                                CHECK RELEASES >
+                            </div>
+                        </div>
+                    </button>
+                    <div class="mt-4 flex justify-between items-center text-xs font-mono-raw text-gray-500 uppercase px-2">
+                        <span>Music for cool people</span>
+                        <span>No Subscription</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- MAIN HEADLINE -->
-        <div class="bg-white px-4 py-2 border-b-8 border-black">
-            <h1 class="text-6xl md:text-8xl lg:text-[7rem] leading-[0.85] text-black text-center tracking-tighter uppercase break-words" style="word-spacing: -0.2em;">
-                Listen to what <br>
-                <span class="bg-black text-white px-4">you want.</span>
-            </h1>
-            <h2 class="text-3xl md:text-5xl text-black text-center mt-2 uppercase tracking-wide">
-                The Modular Music Platform.
-            </h2>
-        </div>
-
-        <!-- SUB TEXT / STICKER BOMB AREA -->
-        <div class="relative bg-black p-0 grid grid-cols-1 md:grid-cols-2">
-            
-            <!-- LEFT: TEXT BLOCK -->
-            <div class="p-8 md:p-12 border-b md:border-b-0 md:border-r border-white/20 flex flex-col justify-center gap-6 bg-[url('https://www.transparenttextures.com/patterns/cardboard-flat.png')]">
-                <div class="bg-white text-black p-4 transform -rotate-1 shadow-[8px_8px_0px_0px_rgba(50,50,50,1)]">
-                    <p class="text-2xl md:text-3xl uppercase font-bold leading-none mb-4">
-                        Break the algorithm. <br>Fuck the mainstream. <br>Build your sound.
-                    </p>
-                    <p class="font-mono-raw text-sm md:text-base border-t-2 border-black pt-2 mt-2">
-                        Emo electronic noise. Raw and brutal. Rad. Your ears, your choice. 
-                    </p>
+        <!-- RELEASES VIEW (Hidden by default) -->
+        <div id="releases-view" class="hidden-page flex-1 bg-white text-black flex flex-col relative">
+             <!-- Releases Header -->
+            <div class="bg-black text-white p-6 border-b-8 border-white flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleView('home')" class="border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors font-mono-raw font-bold text-xs uppercase">
+                        < BACK
+                    </button>
+                    <h2 class="text-4xl font-bold uppercase tracking-tighter">Release Log</h2>
                 </div>
-
-                <div class="bg-black border-2 border-white p-4 text-white font-mono-raw text-xs leading-relaxed">
-                    > SYSTEM_STATUS: ONLINE<br>
-                    > LICENSE: FREEWARE (PROBABLY)<br>
-                    > DEV: MORGK<br>
-                    > NOTE: I LIE A LOT BUT THIS IS FREE.
+                <div class="font-mono-raw text-xs hidden md:block">
+                    INDEX_OF: /pub/releases/
                 </div>
             </div>
 
-            <!-- RIGHT: KNOBS & CONTROLS -->
-            <div class="relative h-[400px] md:h-auto bg-[#1a1a1a] overflow-hidden flex flex-col">
-                <!-- Background texture -->
-                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1563884061844-306915017c2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center grayscale contrast-[2] opacity-30"></div>
+            <!-- File List -->
+            <div class="p-8 md:p-12 font-mono-raw bg-[url('https://www.transparenttextures.com/patterns/cardboard-flat.png')] flex-1">
                 
-                <!-- Knobs Simulation -->
-                <div class="relative z-10 flex-1 grid grid-cols-2 gap-4 p-8">
-                    <!-- Knob 1 -->
-                    <div class="flex flex-col items-center justify-center gap-2">
-                        <div class="w-20 h-20 rounded-full border-4 border-white bg-[#111] shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center justify-center relative transform rotate-45">
-                            <div class="w-1 h-8 bg-white absolute top-1"></div>
-                        </div>
-                        <span class="bg-white text-black px-2 text-sm font-bold">CREATE</span>
+                <div class="border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8">
+                    <div class="bg-black text-white px-4 py-2 text-sm font-bold flex justify-between">
+                        <span>LATEST_STABLE_BUILD</span>
+                        <span>[SIGNED]</span>
                     </div>
-                    <!-- Knob 2 -->
-                    <div class="flex flex-col items-center justify-center gap-2">
-                        <div class="w-20 h-20 rounded-full border-4 border-white bg-[#111] flex items-center justify-center relative transform -rotate-12">
-                            <div class="w-1 h-8 bg-white absolute top-1"></div>
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <h3 class="text-3xl font-bold uppercase mb-1">v.0.8.1</h3>
+                                <p class="text-xs text-gray-500">RELEASE DATE: 2025-11-28 // SIZE: 45MB</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="bg-black text-white px-4 py-2 text-xs hover:bg-red-600 transition-colors">DOWNLOAD .IPA</button>
+                            </div>
                         </div>
-                        <span class="bg-white text-black px-2 text-sm font-bold">CONNECT</span>
-                    </div>
-                    <!-- Knob 3 -->
-                    <div class="flex flex-col items-center justify-center gap-2">
-                        <div class="w-20 h-20 rounded-full border-4 border-white bg-[#111] flex items-center justify-center relative transform rotate-90">
-                            <div class="w-1 h-8 bg-white absolute top-1"></div>
-                        </div>
-                        <span class="bg-white text-black px-2 text-sm font-bold">DESTROY</span>
-                    </div>
-                    <!-- Knob 4 -->
-                    <div class="flex flex-col items-center justify-center gap-2">
-                        <div class="w-20 h-20 rounded-full border-4 border-white bg-[#111] flex items-center justify-center relative transform rotate-180">
-                            <div class="w-1 h-8 bg-white absolute top-1"></div>
-                        </div>
-                        <span class="bg-white text-black px-2 text-sm font-bold">MODULATE</span>
+                        <!-- RELEASE NOTES REMOVED -->
                     </div>
                 </div>
 
-                <div class="absolute bottom-4 right-4 z-20">
-                     <i data-lucide="star" class="w-12 h-12 text-white fill-current animate-spin-slow"></i>
+                <!-- Older releases / Table style -->
+                <div class="border-2 border-black bg-white p-4">
+                    <table class="w-full text-left text-xs md:text-sm">
+                        <thead class="border-b-2 border-black">
+                            <tr>
+                                <th class="py-2">VERSION</th>
+                                <th class="py-2">CODENAME</th>
+                                <th class="py-2 hidden md:table-cell">DATE</th>
+                                <th class="py-2 text-right">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-black/20">
+                            <tr>
+                                <td class="py-3 font-bold">v.0.7.0</td>
+                                <td class="py-3 text-gray-600">BETA_RC1</td>
+                                <td class="py-3 hidden md:table-cell font-mono">2024-10-15</td>
+                                <td class="py-3 text-right"><a href="#" class="underline hover:bg-black hover:text-white px-1">DIR</a></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 font-bold">v.0.5.0</td>
+                                <td class="py-3 text-gray-600">UNSTABLE_CORE</td>
+                                <td class="py-3 hidden md:table-cell font-mono">2024-10-01</td>
+                                <td class="py-3 text-right"><a href="#" class="underline hover:bg-black hover:text-white px-1">DIR</a></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 font-bold">v.0.1.0</td>
+                                <td class="py-3 text-gray-600">ALPHA_DOG</td>
+                                <td class="py-3 hidden md:table-cell font-mono">2024-01-01</td>
+                                <td class="py-3 text-right"><span class="line-through text-gray-400">PURGED</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+
+                <div class="mt-8 border-t-2 border-black pt-4 text-[10px] text-gray-500">
+                    WARNING: USE NIGHTLY BUILDS AT YOUR OWN RISK. IF IT BRICKS YOUR PHONE, THAT'S PUNK ROCK.
+                </div>
+
             </div>
         </div>
 
-        <!-- RIPPED PAPER CTA -->
-        <div class="bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')] bg-gray-900 py-16 px-4 flex justify-center items-center relative overflow-hidden">
-            <!-- Glitch lines -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-white opacity-20"></div>
-            <div class="absolute bottom-10 left-0 w-full h-2 bg-white opacity-10"></div>
-            
-            <div class="relative z-10 max-w-2xl w-full text-center">
-                <button class="ripped-paper w-full group transition-transform hover:scale-105 active:scale-95 duration-100">
-                    <div class="border-4 border-black p-6 flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div class="text-left">
-                            <h3 class="text-3xl md:text-5xl font-black uppercase leading-none">Crack the Code.</h3>
-                            <p class="font-mono-raw text-sm mt-1">iOS / ANDROID INSTALLER</p>
-                        </div>
-                        <div class="bg-black text-white px-6 py-3 text-xl font-bold uppercase whitespace-nowrap hover:bg-red-600 transition-colors">
-                            DOWNLOAD NOW >
-                        </div>
-                    </div>
-                </button>
-                <div class="mt-4 flex justify-between items-center text-xs font-mono-raw text-gray-500 uppercase px-2">
-                    <span>Music for cool people</span>
-                    <span>No Subscription</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- FOOTER -->
-        <footer class="bg-white text-black p-8 border-t-8 border-black">
+        <!-- FOOTER (Shared) -->
+        <footer class="bg-white text-black p-8 border-t-8 border-black mt-auto w-full z-20">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
                 <div>
                     <h2 class="text-5xl font-bold mb-2">8SPINE</h2>
@@ -295,7 +380,7 @@
                          <a href="#" class="border border-black px-2 py-1 hover:bg-black hover:text-white transition-colors">GITHUB</a>
                          <a href="#" class="border border-black px-2 py-1 hover:bg-black hover:text-white transition-colors">TWITTER</a>
                     </div>
-                    <p>VERSION: 1.0.0 (BETA)</p>
+                    <p>VERSION: 0.8.1 (BETA)</p>
                     <p>SERVER STATUS: <span class="bg-black text-white px-1">ONLINE</span></p>
                 </div>
             </div>
@@ -315,6 +400,21 @@
 
     <script>
         lucide.createIcons();
+
+        function toggleView(viewName) {
+            const homeView = document.getElementById('home-view');
+            const releasesView = document.getElementById('releases-view');
+
+            if (viewName === 'releases') {
+                homeView.classList.add('hidden-page');
+                releasesView.classList.remove('hidden-page');
+                window.scrollTo(0, 0);
+            } else {
+                releasesView.classList.add('hidden-page');
+                homeView.classList.remove('hidden-page');
+                window.scrollTo(0, 0);
+            }
+        }
     </script>
 </body>
 </html>
