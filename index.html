@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8SPINE | ARCHIVE YOUR EGO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&family=Syne+Mono&family=Teko:wght@300;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #080808;
+            --fg-color: #e0e0e0;
+            --paper-white: #f5f5f5;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--fg-color);
+            font-family: 'Courier Prime', monospace;
+            overflow-x: hidden;
+            cursor: default; /* Keep it standard, let the design do the work */
+        }
+
+        /* --- TEXTURES --- */
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.08;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .film-scratch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: url('https://www.transparenttextures.com/patterns/dust.png'); 
+            opacity: 0.3;
+            mix-blend-mode: overlay;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .font-marker { font-family: 'Permanent Marker', cursive; }
+        .font-mono-raw { font-family: 'Syne Mono', monospace; }
+        .font-display { font-family: 'Teko', sans-serif; text-transform: uppercase; }
+
+        /* --- CUSTOM UTILS --- */
+        .blend-exclusion { mix-blend-mode: exclusion; }
+        
+        .torn-paper {
+            position: relative;
+        }
+        .torn-paper::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background-color: inherit;
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="20" preserveAspectRatio="none"><path d="M0,0 L5,10 L10,0 L15,8 L20,0 L25,12 L30,0 L35,8 L40,0 L45,10 L50,0 L55,12 L60,0 L65,8 L70,0 L75,10 L80,0 L85,12 L90,0 L95,8 L100,0 V20 H0 Z" fill="black"/></svg>');
+            -webkit-mask-size: 30px 100%;
+            -webkit-mask-repeat: repeat-x;
+            transform: rotate(180deg);
+        }
+
+        .brutalist-border {
+            border: 1px solid white;
+            box-shadow: 4px 4px 0px 0px rgba(255,255,255,1);
+            transition: all 0.2s ease;
+        }
+        
+        .brutalist-border:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(255,255,255,1);
+        }
+
+        .tape-strip {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            backdrop-filter: blur(2px);
+            transform: rotate(-2deg);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes drift {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .scrolling-text {
+            white-space: nowrap;
+            animation: scroll-left 20s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; background: #080808; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="selection:bg-white selection:text-black">
+
+    <div class="noise-bg"></div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="relative z-10 w-full min-h-screen flex flex-col max-w-[1600px] mx-auto border-x border-white/10 bg-[#080808]">
+        
+        <!-- HEADER -->
+        <header class="w-full flex justify-between items-center p-6 border-b border-white sticky top-0 bg-[#080808]/95 backdrop-blur z-50">
+            <div class="flex items-center gap-4">
+                <!-- LOGO -->
+                <div class="w-48 h-12 relative overflow-hidden mix-blend-screen invert md:invert-0">
+                   <img src="expandedLogo.jpg" alt="8SPINE Logo" class="w-full h-full object-contain object-left scale-150 origin-left filter contrast-150 brightness-110">
+                </div>
+            </div>
+            
+            <nav class="hidden md:flex gap-8 font-mono text-sm tracking-tight">
+                <a href="#philosophy" class="hover:underline decoration-1 underline-offset-4">PHILOSOPHY</a>
+                <a href="#features" class="hover:underline decoration-1 underline-offset-4">ARCHITECTURE</a>
+                <a href="#download" class="bg-white text-black px-4 py-1 font-bold hover:bg-gray-300 transition-colors">GET_BETA</a>
+            </nav>
+
+            <button class="md:hidden text-white">
+                <i data-lucide="menu"></i>
+            </button>
+        </header>
+
+        <!-- HERO SECTION -->
+        <section class="relative min-h-[85vh] flex flex-col p-6 border-b border-white/20 overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute right-0 top-0 w-1/2 h-full bg-[url('https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80')] bg-cover bg-center grayscale opacity-20 mix-blend-overlay"></div>
+            <div class="film-scratch"></div>
+
+            <div class="relative z-10 mt-auto mb-20 md:mb-12 max-w-5xl">
+                <div class="inline-block bg-white text-black px-2 py-0.5 text-xs font-bold font-mono mb-6 transform -rotate-1">
+                    FOR_PERFECTIONISTS_ONLY
+                </div>
+                
+                <h1 class="text-6xl md:text-9xl font-display uppercase leading-[0.8] tracking-tighter mb-8 mix-blend-difference">
+                    Your Files.<br>
+                    Your Cloud.<br>
+                    <span class="text-white/40">MUSIC FOR COOL PEOPLE</span>
+                </h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start border-t border-white/30 pt-8">
+                    <p class="font-mono text-sm md:text-base leading-relaxed text-gray-300">
+                        Stop renting your taste. 8SPINE is the audio architecture for your pocket. Connect to your server or sync locally. It's surprisingly easy to stop relying on algorithms.
+                    </p>
+                    
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-4">
+                             <button class="brutalist-border px-8 py-4 bg-transparent text-white font-mono text-sm uppercase tracking-widest hover:bg-white hover:text-black">
+                                GET THE APP
+                            </button>
+                            <span class="font-marker text-gray-500 transform -rotate-6 text-sm">v.1.0 (Mobile)</span>
+                        </div>
+                        <div class="flex gap-4 items-center">
+                            <p class="text-xs text-gray-500 font-mono">AVAILABLE ON IOS & ANDROID</p>
+                            <span class="bg-green-500 text-black text-[10px] font-bold px-2 py-0.5 transform rotate-3">100% FREE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decorative Tape -->
+            <div class="absolute bottom-10 right-10 w-48 h-12 tape-strip z-20 hidden md:block"></div>
+        </section>
+
+        <!-- MARQUEE -->
+        <div class="w-full bg-white text-black py-3 border-y border-black overflow-hidden relative z-20">
+            <div class="scrolling-text font-display text-4xl leading-none">
+                OWN YOUR DATA +++ FLAC/WAV/ALAC SUPPORT +++ SELF-HOSTED STREAMING +++ ANTI-ALGORITHM +++ THE ARCHIVE IS FOREVER +++ BUILD YOUR LEGACY +++ NO SUBSCRIPTION REQUIRED +++
+                OWN YOUR DATA +++ FLAC/WAV/ALAC SUPPORT +++ SELF-HOSTED STREAMING +++ ANTI-ALGORITHM +++ THE ARCHIVE IS FOREVER +++ BUILD YOUR LEGACY +++ NO SUBSCRIPTION REQUIRED +++
+            </div>
+        </div>
+
+        <!-- FEATURES / ARCHITECTURE -->
+        <section id="features" class="grid grid-cols-1 md:grid-cols-3 border-b border-white/20">
+            <!-- Feature 1 -->
+            <div class="border-b md:border-b-0 md:border-r border-white/20 p-8 min-h-[400px] flex flex-col justify-between group hover:bg-white/5 transition-colors relative">
+                <div class="absolute top-4 right-4 text-white/20 font-display text-6xl group-hover:text-white/40 transition-colors">01</div>
+                <div>
+                    <i data-lucide="hard-drive" class="w-12 h-12 mb-6 text-white stroke-1"></i>
+                    <h3 class="font-mono font-bold text-2xl mb-2">LOCAL_AUTHORITY</h3>
+                    <div class="h-px w-12 bg-white mb-4"></div>
+                    <p class="font-mono text-sm text-gray-400 leading-relaxed">
+                        It plays what's on your drive. No cloud matching, no "radio edits." Just your raw files, played back with a pristine audio engine designed for high-impedance headphones.
+                    </p>
+                </div>
+                <div class="mt-8 font-mono text-xs text-gray-600">
+                    STATUS: <span class="text-green-500">CONNECTED</span>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="border-b md:border-b-0 md:border-r border-white/20 p-8 min-h-[400px] flex flex-col justify-between group hover:bg-white/5 transition-colors relative">
+                <div class="absolute top-4 right-4 text-white/20 font-display text-6xl group-hover:text-white/40 transition-colors">02</div>
+                <div>
+                    <i data-lucide="smartphone" class="w-12 h-12 mb-6 text-white stroke-1"></i>
+                    <h3 class="font-mono font-bold text-2xl mb-2">POCKET_SERVER</h3>
+                    <div class="h-px w-12 bg-white mb-4"></div>
+                    <p class="font-mono text-sm text-gray-400 leading-relaxed">
+                        Your entire terabyte archive, streamed lossless to your phone anywhere. No compression, no buffering. It's like carrying your hard drive in your pocket.
+                    </p>
+                </div>
+                <div class="mt-8 font-mono text-xs text-gray-600">
+                    LATENCY: <span class="text-green-500">12ms</span>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="p-8 min-h-[400px] flex flex-col justify-between group hover:bg-white/5 transition-colors relative">
+                <div class="absolute top-4 right-4 text-white/20 font-display text-6xl group-hover:text-white/40 transition-colors">03</div>
+                <div>
+                    <i data-lucide="disc-3" class="w-12 h-12 mb-6 text-white stroke-1"></i>
+                    <h3 class="font-mono font-bold text-2xl mb-2">CRATE_DIGGER</h3>
+                    <div class="h-px w-12 bg-white mb-4"></div>
+                    <p class="font-mono text-sm text-gray-400 leading-relaxed">
+                        Tools built for obsessives. Edit metadata in bulk. Rip vinyl with automated noise reduction profiles. Organize by label, matrix runout, or vibe.
+                    </p>
+                </div>
+                <div class="mt-8 font-mono text-xs text-gray-600">
+                    INDEX: <span class="text-green-500">READY</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- IMAGE BREAK -->
+        <section class="w-full h-[60vh] relative overflow-hidden border-b border-white/20">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1594623930572-300a3011d9ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center grayscale contrast-125"></div>
+            <div class="absolute inset-0 bg-black/40"></div>
+            
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="bg-white p-8 max-w-md transform rotate-1 shadow-2xl">
+                    <h2 class="text-black font-display text-5xl mb-2 uppercase text-center">Rent Less. Own More.</h2>
+                    <p class="text-black font-mono text-xs text-center border-t border-black pt-4">
+                        Streaming services are okay, we guess. <br>
+                        But owning your files is just... better.
+                    </p>
+                    <div class="mt-6 flex justify-center">
+                         <div class="w-16 h-16 border-2 border-black rounded-full flex items-center justify-center">
+                             <div class="w-3 h-3 bg-black rounded-full animate-pulse"></div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MANIFESTO TEXT -->
+        <section id="philosophy" class="py-24 px-6 md:px-12 bg-[#0a0a0a]">
+            <div class="max-w-4xl mx-auto border-l-2 border-white pl-8 md:pl-16 relative">
+                <i data-lucide="quote" class="absolute -top-4 -left-4 w-8 h-8 bg-[#0a0a0a] text-white fill-current p-1"></i>
+                
+                <h2 class="text-3xl md:text-5xl font-display uppercase leading-tight mb-8 text-gray-200">
+                    "We built this because we wanted our obscure Japanese ambient records to sound as good on the bus as they do on the turntable."
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-mono text-sm text-gray-400">
+                    <p>
+                        8SPINE is simple. You have files, we play them. No tracking, no ads, no weird social features nobody asked for. It's free and probably will always be free (no promises, i lie a lot).
+                    </p>
+                    <p>
+                        Designed for listeners who just want their library to work without a monthly subscription fee. The collectors. The archivists. The cool people.
+                    </p>
+                </div>
+
+                <div class="mt-12 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center font-bold font-display text-xl border-2 border-white">
+                        M
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-mono text-sm text-white font-bold">DEVELOPED BY MORGK</span>
+                        <span class="font-mono text-xs text-gray-500">Sole Developer</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-white/20 bg-black text-white p-8 md:p-16">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-12">
+                
+                <div class="w-full md:w-1/3">
+                    <div class="font-display text-4xl mb-4">8SPINE</div>
+                    <p class="font-mono text-xs text-gray-500 mb-6">
+                        NO TRACKING. NO ADS.
+                    </p>
+                    <div class="flex gap-4">
+                        <i data-lucide="github" class="w-5 h-5 cursor-pointer hover:text-gray-400"></i>
+                        <i data-lucide="twitter" class="w-5 h-5 cursor-pointer hover:text-gray-400"></i>
+                        <i data-lucide="disc" class="w-5 h-5 cursor-pointer hover:text-gray-400"></i>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8 font-mono text-xs uppercase tracking-wider">
+                    <div class="flex flex-col gap-4">
+                        <span class="text-gray-500 border-b border-gray-800 pb-2">Product</span>
+                        <a href="#" class="hover:text-gray-400">iOS App</a>
+                        <a href="#" class="hover:text-gray-400">Android App</a>
+                        <a href="#" class="hover:text-gray-400">Server Helper</a>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <span class="text-gray-500 border-b border-gray-800 pb-2">Resources</span>
+                        <a href="#" class="hover:text-gray-400">Documentation</a>
+                        <a href="#" class="hover:text-gray-400">API</a>
+                        <a href="#" class="hover:text-gray-400">Community Configs</a>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <span class="text-gray-500 border-b border-gray-800 pb-2">Legal</span>
+                        <a href="#" class="hover:text-gray-400">Privacy</a>
+                        <a href="#" class="hover:text-gray-400">Terms</a>
+                        <a href="#" class="hover:text-gray-400">EULA</a>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-16 pt-8 border-t border-gray-900 flex justify-between items-center text-[10px] text-gray-600 font-mono">
+                <div>SYSTEM STATUS: NORMAL</div>
+                <div>© 2024 8SPINE INC.</div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
