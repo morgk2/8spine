@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8SPINE | LISTEN TO YOUR MUSIC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Archivo Black', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Glitch container */
+        .glitch-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Random white glitch lines */
+        .glitch-line {
+            position: absolute;
+            background: #fff;
+            opacity: 0;
+            animation: glitch-flash 0.1s infinite;
+        }
+
+        @keyframes glitch-flash {
+            0%, 90% { opacity: 0; }
+            92% { opacity: 0.8; }
+            94% { opacity: 0; }
+            96% { opacity: 0.6; }
+            98% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .glitch-line:nth-child(1) { top: 15%; left: 0; width: 35%; height: 2px; animation-delay: 0s; animation-duration: 3s; }
+        .glitch-line:nth-child(2) { top: 32%; right: 0; width: 20%; height: 1px; animation-delay: 0.5s; animation-duration: 2.5s; }
+        .glitch-line:nth-child(3) { top: 48%; left: 10%; width: 60%; height: 3px; animation-delay: 1s; animation-duration: 4s; }
+        .glitch-line:nth-child(4) { top: 67%; left: 0; width: 15%; height: 1px; animation-delay: 1.5s; animation-duration: 2s; }
+        .glitch-line:nth-child(5) { top: 78%; right: 5%; width: 40%; height: 2px; animation-delay: 2s; animation-duration: 3.5s; }
+        .glitch-line:nth-child(6) { top: 25%; left: 50%; width: 25%; height: 1px; animation-delay: 0.3s; animation-duration: 2.8s; }
+        .glitch-line:nth-child(7) { top: 55%; right: 20%; width: 10%; height: 4px; animation-delay: 1.2s; animation-duration: 3.2s; }
+        .glitch-line:nth-child(8) { top: 88%; left: 30%; width: 45%; height: 1px; animation-delay: 0.8s; animation-duration: 2.2s; }
+
+        /* Glitch blocks */
+        .glitch-block {
+            position: absolute;
+            background: #fff;
+            opacity: 0;
+            animation: block-flash 0.15s infinite;
+        }
+
+        @keyframes block-flash {
+            0%, 85% { opacity: 0; }
+            87% { opacity: 0.3; }
+            89% { opacity: 0; }
+            91% { opacity: 0.5; }
+            93% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .glitch-block:nth-child(9) { top: 20%; left: 70%; width: 30px; height: 8px; animation-delay: 0.7s; animation-duration: 4.5s; }
+        .glitch-block:nth-child(10) { top: 60%; left: 5%; width: 50px; height: 5px; animation-delay: 1.8s; animation-duration: 3.8s; }
+        .glitch-block:nth-child(11) { top: 40%; right: 10%; width: 20px; height: 15px; animation-delay: 2.3s; animation-duration: 5s; }
+        .glitch-block:nth-child(12) { top: 75%; left: 60%; width: 40px; height: 3px; animation-delay: 0.4s; animation-duration: 2.9s; }
+
+        /* Static noise overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Main content */
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        /* Logo */
+        .logo {
+            width: 200px;
+            max-width: 80vw;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Footer links */
+        .footer {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            z-index: 10;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+
+        /* App Store badge */
+        .app-store-badge {
+            height: 50px;
+            transition: opacity 0.3s ease;
+        }
+
+        .app-store-badge:hover {
+            opacity: 0.7;
+        }
+
+        /* Check releases link */
+        .releases-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .releases-link:hover {
+            background: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Glitch effects -->
+    <div class="glitch-container">
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+        <div class="glitch-block"></div>
+        <div class="glitch-block"></div>
+        <div class="glitch-block"></div>
+        <div class="glitch-block"></div>
+    </div>
+
+    <!-- Noise overlay -->
+    <div class="noise"></div>
+
+    <!-- Main content -->
+    <div class="content">
+        <img src="expandedLogo.png" alt="8SPINE Logo" class="logo">
+        
+        <a href="https://apps.apple.com/app/8spine" target="_blank">
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                 alt="Download on the App Store" 
+                 class="app-store-badge">
+        </a>
+        
+        <a href="/releases.html" class="releases-link">Check Releases</a>
+    </div>
+
+    <div class="footer">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Use</a>
+    </div>
+</body>
+</html>
