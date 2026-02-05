@@ -566,7 +566,7 @@
                                     returns a standardized list of tracks.
                                     You MUST map your API's response to the 8SPINE track format.
                                 </p>
-                                <pre class="language-javascript"><code><span class="code-function">searchTracks</span>: <span class="code-keyword">async</span> (query, limit) => {
+                                <pre class="language-javascript"><code><span class="code-function">searchTracks</span>: <span class="code-keyword"></span> (query, limit) => {
     <span class="code-comment">// 1. Fetch data from your API</span>
     <span class="code-keyword">const</span> url = <span class="code-string">`https://my-api.com/search?q=${encodeURIComponent(query)}`</span>;
     <span class="code-keyword">const</span> res = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(url);
@@ -594,7 +594,7 @@
                                     returned in Step 2.
                                     It must return a direct, playable audio URL (MP3, FLAC, M4A).
                                 </p>
-                                <pre class="language-javascript"><code><span class="code-function">getTrackStreamUrl</span>: <span class="code-keyword">async</span> (trackId, quality) => {
+                                <pre class="language-javascript"><code><span class="code-function">getTrackStreamUrl</span>: <span class="code-keyword"></span> (trackId, quality) => {
     console.log(<span class="code-string">'Fetching stream for:'</span>, trackId);
 
     <span class="code-comment">// 1. Call your API to get the download/stream link</span>
@@ -657,18 +657,18 @@
      * @param {string} query - The search string
      * @param {number} limit - Max results
      */</span>
-    <span class="code-function">searchTracks</span>: <span class="code-keyword">async</span> (query, limit) => { ... },
+    <span class="code-function">searchTracks</span>: <span class="code-keyword"></span> (query, limit) => { ... },
 
     <span class="code-comment">/**
      * Get the direct audio stream URL.
      * @param {string} id - The track ID (from search results)
      * @param {string} quality - 'LOSSLESS', 'HIGH', 'LOW'
      */</span>
-    <span class="code-function">getTrackStreamUrl</span>: <span class="code-keyword">async</span> (id, quality) => { ... },
+    <span class="code-function">getTrackStreamUrl</span>: <span class="code-keyword"></span> (id, quality) => { ... },
 
     <span class="code-comment">// -- Optional Methods --</span>
-    <span class="code-function">getAlbum</span>: <span class="code-keyword">async</span> (id) => { ... },
-    <span class="code-function">getArtist</span>: <span class="code-keyword">async</span> (id) => { ... }
+    <span class="code-function">getAlbum</span>: <span class="code-keyword"></span> (id) => { ... },
+    <span class="code-function">getArtist</span>: <span class="code-keyword"></span> (id) => { ... }
 };</code></pre>
                         </div>
                     </div>
