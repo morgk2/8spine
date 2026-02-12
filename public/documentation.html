@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8SPINE Module Engine Docs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        spine: {
+                            50: '#fafafa',
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            700: '#404040',
+                            800: '#262626',
+                            900: '#171717',
+                            950: '#000000',
+                        },
+                        slate: {
+                            50: '#fafafa',
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            800: '#262626',
+                            850: '#1c1c1c',
+                            900: '#0a0a0a',
+                            950: '#000000',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
+        }
+
+        /* Syntax Highlighting Base */
+        pre {
+            overflow-x: auto;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #171717;
+            /* Slate 900 */
+            color: #d4d4d4;
+            /* Slate 300 */
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border: 1px solid #262626;
+            /* Slate 800 */
+        }
+
+        .code-keyword {
+            color: #ffffff;
+            /* White  */
+            font-weight: bold;
+        }
+
+        /* purple */
+        .code-function {
+            color: #d4d4d4;
+            /* Light Gray */
+            text-decoration: underline;
+        }
+
+        /* blue */
+        .code-string {
+            color: #a3a3a3;
+            /* Gray */
+            font-style: italic;
+        }
+
+        /* green */
+        .code-comment {
+            color: #525252;
+            /* Dark Gray */
+        }
+
+        /* gray */
+        .code-operator {
+            color: #ffffff;
+        }
+
+        /* pink */
+        .code-number {
+            color: #ffffff;
+        }
+
+        /* yellow */
+        .code-tag {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .section-header {
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '#';
+            position: absolute;
+            left: -1.5rem;
+            color: #ffffff;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .section-header:hover::after {
+            opacity: 1;
+        }
+
+        /* Steps Counter */
+        .step-counter {
+            counter-reset: step;
+        }
+
+        .step-item {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .step-item::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: #ffffff;
+            color: black;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 2rem;
+            bottom: -1.5rem;
+            width: 2px;
+            background: #262626;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-slate-300 font-sans antialiased selection:bg-spine-500 selection:text-white">
+
+    <!-- Mobile Header -->
+    <header
+        class="lg:hidden fixed top-0 w-full bg-slate-900/80 backdrop-blur-md border-b border-slate-800 z-50 px-4 py-3 flex justify-between items-center">
+        <div class="font-bold text-xl text-white tracking-tight flex items-center gap-2">
+            <img src="../logo.png" alt="8SPINE" class="w-8 h-8 rounded-lg object-cover invert">
+            8SPINE <span class="text-xs font-normal text-slate-400 uppercase tracking-widest ml-1">Docs</span>
+        </div>
+        <button id="menu-btn" class="text-slate-400 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+    </header>
+
+    <div class="flex h-screen overflow-hidden pt-14 lg:pt-0">
+
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 w-64 bg-slate-900 border-r border-slate-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 lg:static lg:block flex flex-col">
+            <div class="p-6 border-b border-slate-800 hidden lg:flex items-center gap-2">
+                <img src="../logo.png" alt="8SPINE" class="w-8 h-8 rounded-lg object-cover invert">
+                <div>
+                    <h1 class="font-bold text-white text-lg leading-none">8SPINE</h1>
+                    <span class="text-[10px] text-spine-400 uppercase tracking-widest font-semibold">Engine Docs</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-8">
+                <!-- Section 1 -->
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-2">Introduction
+                    </h3>
+                    <ul class="space-y-1">
+                        <li><a href="#overview"
+                                class="block px-2 py-1.5 text-sm rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">Overview</a>
+                        </li>
+                        <li><a href="#architecture"
+                                class="block px-2 py-1.5 text-sm rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">Architecture</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Section 2 -->
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-2">Core Engine</h3>
+                    <ul class="space-y-1">
+                        <li><a href="#module-manager"
+                                class="block px-2 py-1.5 text-sm rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">Module
+                                Manager</a></li>
+                        <li><a href="#stream-helper"
+                                class="block px-2 py-1.5 text-sm rounded-md text-spine-300 font-medium bg-spine-900/10 hover:bg-spine-900/20 transition-colors">Stream
+                                Helper Intelligence</a></li>
+                        <li><a href="#caching"
+                                class="block px-2 py-1.5 text-sm rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">Caching
+                                Layer</a></li>
+                    </ul>
+                </div>
+
+                <!-- Section 3 -->
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-2">Module
+                        Development</h3>
+                    <ul class="space-y-1">
+                        <li><a href="#tutorial"
+                                class="block px-2 py-1.5 text-sm rounded-md text-white bg-spine-600 hover:bg-spine-500 transition-colors shadow-lg shadow-spine-900/50">Tutorial:
+                                Create a Module</a></li>
+                        <li><a href="#module-structure"
+                                class="block px-2 py-1.5 text-sm rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">Standard
+                                Contract</a></li>
+                    </ul>
+                </div>
+
+                <!-- Section 4 -->
+                <div>
+                    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-2">Reference</h3>
+                    <ul class="space-y-1">
+                        <li><a href="#api-reference"
+                                class="block px-2 py-1.5 text-sm rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">API
+                                Reference</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="p-4 border-t border-slate-800">
+                <div class="bg-slate-800/50 rounded-lg p-3">
+                    <p class="text-xs text-slate-400">Current Version</p>
+                    <p class="text-sm font-mono text-spine-400">v2.4.0-alpha</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile sidebar -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-slate-950">
+            <div class="max-w-4xl mx-auto px-6 py-12 lg:px-12 lg:py-16">
+
+                <!-- Hero -->
+                <div class="mb-16">
+                    <h1 class="text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight">8SPINE Module Engine</h1>
+                    <p class="text-lg text-slate-400 leading-relaxed max-w-2xl">
+                        A modular, plugin-based architecture for high-fidelity audio streaming.
+                        The engine separates core player logic from content sources, allowing for infinite extensibility
+                        via community modules.
+                    </p>
+                </div>
+
+                <!-- Overview -->
+                <section id="overview" class="mb-20 scroll-mt-24">
+                    <h2 class="section-header text-2xl font-bold text-white mb-6">Overview</h2>
+                    <p class="text-slate-300 mb-6 leading-relaxed">
+                        8SPINE operates on a "Bring Your Own Source" (BYOS) philosophy. The core application provides
+                        the UI,
+                        caching, playlist management, and audio pipeline. The <strong>Module Engine</strong> handles the
+                        retrieval of metadata and audio streams.
+                    </p>
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+                        <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-spine-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            Key Capabilities
+                        </h3>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-spine-500 mt-2"></div>
+                                <span class="text-slate-400 text-sm">Dynamic module loading at runtime via <code
+                                        class="bg-slate-800 px-1 py-0.5 rounded text-spine-300">Module Manager</code>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-spine-500 mt-2"></div>
+                                <span class="text-slate-400 text-sm">Intelligent stream matching via <code
+                                        class="bg-slate-800 px-1 py-0.5 rounded text-spine-300">Stream Helper</code>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-spine-500 mt-2"></div>
+                                <span class="text-slate-400 text-sm">Cross-module compatibility (e.g., Spotify Search +
+                                    External Source).</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-spine-500 mt-2"></div>
+                                <span class="text-slate-400 text-sm">Persistent caching of module results.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Module Manager -->
+                <section id="module-manager" class="mb-20 scroll-mt-24">
+                    <h2 class="section-header text-2xl font-bold text-white mb-6">The Module Manager</h2>
+                    <p class="text-slate-300 mb-4">
+                        The <strong class="text-spine-300">Module Manager</strong> is the orchestrator of the engine. It
+                        is responsible for the full lifecycle of a module: installation, loading, and execution. It acts
+                        as a bridge between the React Native UI and the raw JavaScript code of the modules.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="bg-slate-900 rounded-lg border border-slate-800 overflow-hidden">
+                            <div
+                                class="px-4 py-3 border-b border-slate-800 bg-slate-850 flex items-center justify-between">
+                                <span class="text-xs font-mono text-slate-400">Services/ModuleManager.js</span>
+                                <span class="text-xs text-spine-400 font-semibold">Core Logic</span>
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-white font-medium mb-2">Code Parsing & Injection</h4>
+                                <p class="text-slate-400 text-sm mb-4">
+                                    Modules are stored as strings. The manager uses a sandboxed evaluation technique to
+                                    instantiate them.
+                                    Crucially, it handles different export styles:
+                                <ul class="list-disc list-inside mt-2 text-slate-500 mb-4">
+                                    <li><strong>Export Const Wrapper:</strong> It detects <code
+                                            class="text-xs bg-slate-800 px-1 rounded">export const MODULE = `...`</code>
+                                        patterns, strips the export keyword, and extracts the inner code block using
+                                        regex. This allows modules to be bundled as ES6 constants.</li>
+                                    <li><strong>Direct Return:</strong> Standard JS that ends with <code
+                                            class="text-xs bg-slate-800 px-1 rounded">return { ... }</code>.</li>
+                                </ul>
+                                </p>
+                                <pre class="language-javascript"><code id="code-loader">
+<span class="code-keyword">loadModule</span>(code) {
+    <span class="code-keyword">let</span> moduleCode = code;
+
+    <span class="code-comment">// 1. Handle Export Wrappers</span>
+    <span class="code-comment">// Often modules are wrapped in `export const NAME = ...` for portability.</span>
+    <span class="code-comment">// The manager strips this to get to the raw function body.</span>
+    <span class="code-keyword">if</span> (hasExportWrapper) {
+        moduleCode = extractInnerCode(moduleCode);
+    }
+
+    <span class="code-comment">// 2. Instantiate</span>
+    <span class="code-comment">// The code is executed as a new Function.</span>
+    <span class="code-keyword">const</span> createModule = <span class="code-keyword">new</span> <span class="code-function">Function</span>(moduleCode);
+    <span class="code-keyword">const</span> moduleInstance = <span class="code-function">createModule</span>();
+
+    <span class="code-comment">// 3. Register</span>
+    <span class="code-keyword">this</span>.modules.<span class="code-function">set</span>(moduleInstance.id, moduleInstance);
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/50">
+                                <h4 class="font-semibold text-white mb-2">Proxy Pattern</h4>
+                                <p class="text-sm text-slate-400">
+                                    The Manager acts as a proxy. When the app requests <code
+                                        class="text-spine-300">searchTracks</code>, the Manager forwards the request to
+                                    the currently <strong>Active Module</strong>. This allows hot-swapping sources
+                                    without restarting the app.
+                                </p>
+                            </div>
+                            <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/50">
+                                <h4 class="font-semibold text-white mb-2">Persistence</h4>
+                                <p class="text-sm text-slate-400">
+                                    Modules and the user's "Active Module" preference are persisted in <code
+                                        class="text-spine-300">AsyncStorage</code>. On app launch, the `init()` method
+                                    rehydrates the engine and automatically re-activates the last used source.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stream Helper -->
+                <section id="stream-helper" class="mb-20 scroll-mt-24">
+                    <div class="flex items-center gap-3 mb-6">
+                        <h2 class="section-header text-2xl font-bold text-white">Stream Helper Intelligence</h2>
+                        <span
+                            class="px-2 py-0.5 rounded-full bg-spine-500/10 text-spine-300 text-xs border border-spine-500/20 font-medium">Critical
+                            Component</span>
+                    </div>
+
+                    <p class="text-slate-300 mb-6">
+                        The <strong class="text-spine-300">Stream Helper</strong> is the intelligence layer. It connects
+                        the "Desire" (a track the user wants to play) with the "Source" (a playable stream URL).
+                        It is robust against metadata mismatches between services (e.g., spotify naming vs your source
+                        naming
+                        conventions).
+                    </p>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden mb-8">
+                        <div class="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800">
+                            <div class="p-6">
+                                <div class="text-spine-400 mb-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-white font-medium mb-2">Normalization</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Converts all strings to a "canonical" form. Removes smart quotes, standardizes CJK
+                                    characters to ASCII (e.g., Full-width brackets to standard brackets), and collapses
+                                    whitespace to ensure broad compatibility.
+                                </p>
+                            </div>
+                            <div class="p-6">
+                                <div class="text-spine-400 mb-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-white font-medium mb-2">Romanization Retry</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    If a Japanese/Korean track fails to find a stream, the engine automatically
+                                    Romanizes the query (e.g., "アイドル" -> "Idol") and retries. This handles database
+                                    differences between regions.
+                                </p>
+                            </div>
+                            <div class="p-6">
+                                <div class="text-spine-400 mb-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-white font-medium mb-2">Strict Verification</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Search results are filtered strictly. The helper ensures the Artist matches exactly
+                                    (fuzzy) before checking the title, preventing "Cover" or "Karaoke" versions from
+                                    playing.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-white mb-4">The Logic Flow & Retry Matrix</h3>
+                    <div class="relative pl-6 border-l-2 border-slate-800 space-y-8">
+                        <div class="relative">
+                            <span
+                                class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-slate-800 border-2 border-slate-600"></span>
+                            <h4 class="text-white font-medium text-sm">1. Clean & Analyze</h4>
+                            <p class="text-slate-400 text-sm mt-1">
+                                Input track metadata is cleaned. If the track name is purely special characters (e.g.,
+                                "?????"), the search strategy shifts to "Exact Match" mode to avoid search engine
+                                confusion.
+                            </p>
+                        </div>
+                        <div class="relative">
+                            <span
+                                class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-slate-800 border-2 border-slate-600"></span>
+                            <h4 class="text-white font-medium text-sm">2. Primary Search</h4>
+                            <p class="text-slate-400 text-sm mt-1">
+                                Queries the Active Module with <code class="text-spine-300">"${Track} ${Artist}"</code>.
+                            </p>
+                        </div>
+                        <div class="relative">
+                            <span
+                                class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-slate-800 border-2 border-spine-500 bg-spine-900"></span>
+                            <h4 class="text-white font-medium text-sm">3. The Retry Matrix (If Primary Fails)</h4>
+                            <div class="mt-2 space-y-2">
+                                <div
+                                    class="bg-slate-900 p-2 rounded border border-slate-800 text-xs font-mono text-slate-300">
+                                    Retry 1: Romanized Track + Romanized Artist <span class="text-slate-500">// Helps if
+                                        source is English-only</span></div>
+                                <div
+                                    class="bg-slate-900 p-2 rounded border border-slate-800 text-xs font-mono text-slate-300">
+                                    Retry 2: Original Track + Romanized Artist <span class="text-slate-500">// Helps if
+                                        Artist is known internationally but track is local</span></div>
+                                <div
+                                    class="bg-slate-900 p-2 rounded border border-slate-800 text-xs font-mono text-slate-300">
+                                    Retry 3: Romanized Track + Original Artist <span class="text-slate-500">// Helps if
+                                        Track is transliterated but Artist uses Kanji</span></div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <span
+                                class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-slate-800 border-2 border-slate-600"></span>
+                            <h4 class="text-white font-medium text-sm">4. Stream Verification</h4>
+                            <p class="text-slate-400 text-sm mt-1">
+                                The engine iterates through search candidates. It calls <code
+                                    class="text-spine-300">getTrackStreamUrl</code> on them. The first one to return a
+                                valid URL (usually LOSSLESS) wins and is cached.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tutorial Section -->
+                <section id="tutorial" class="mb-20 scroll-mt-24">
+                    <div class="p-8 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-xl">
+                        <h2 class="section-header text-3xl font-bold text-white mb-6">Tutorial: Create a Module</h2>
+                        <p class="text-slate-300 mb-8">
+                            Creating a module for 8SPINE is simple. You just need to return a JavaScript object with
+                            specific methods. Follow these four steps to build your own.
+                        </p>
+
+                        <div class="step-counter space-y-12">
+
+                            <!-- Step 1 -->
+                            <div class="step-item">
+                                <h3 class="text-xl font-bold text-white mb-2">Define Metadata</h3>
+                                <p class="text-sm text-slate-400 mb-4">Start by defining the identity of your module.
+                                    The ID must be unique.</p>
+                                <pre class="language-javascript"><code><span class="code-keyword">const</span> MY_MODULE = {
+    <span class="code-string">id</span>: <span class="code-string">'my-custom-source'</span>,
+    <span class="code-string">name</span>: <span class="code-string">'My Custom Source'</span>,
+    <span class="code-string">version</span>: <span class="code-string">'1.0.0'</span>,
+    <span class="code-string">labels</span>: [<span class="code-string">'MP3'</span>, <span class="code-string">'FAST'</span>], <span class="code-comment">// Tags shown in UI</span>
+    
+    <span class="code-comment">// ... methods will go here</span>
+};</code></pre>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div class="step-item">
+                                <h3 class="text-xl font-bold text-white mb-2">Implement Search</h3>
+                                <p class="text-sm text-slate-400 mb-4">
+                                    The <code class="text-spine-300">searchTracks</code> method takes a user query and
+                                    returns a standardized list of tracks.
+                                    You MUST map your API's response to the 8SPINE track format.
+                                </p>
+                                <pre class="language-javascript"><code><span class="code-function">searchTracks</span>: <span class="code-keyword"></span> (query, limit) => {
+    <span class="code-comment">// 1. Fetch data from your API</span>
+    <span class="code-keyword">const</span> url = <span class="code-string">`https://my-api.com/search?q=${encodeURIComponent(query)}`</span>;
+    <span class="code-keyword">const</span> res = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(url);
+    <span class="code-keyword">const</span> data = <span class="code-keyword">await</span> res.<span class="code-function">json</span>();
+
+    <span class="code-comment">// 2. Map to 8SPINE format</span>
+    <span class="code-keyword">const</span> tracks = data.results.map(item => ({
+        <span class="code-string">id</span>: item.unique_id,           <span class="code-comment">// Crucial: Used later for streaming</span>
+        <span class="code-string">title</span>: item.track_name,
+        <span class="code-string">artist</span>: item.artist_name,
+        <span class="code-string">album</span>: item.album_name,
+        <span class="code-string">duration</span>: item.length_in_seconds,
+        <span class="code-string">albumCover</span>: item.cover_art_url
+    }));
+
+    <span class="code-keyword">return</span> { <span class="code-string">tracks</span>: tracks, <span class="code-string">total</span>: tracks.length };
++},</code></pre>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div class="step-item">
+                                <h3 class="text-xl font-bold text-white mb-2">Implement Streaming</h3>
+                                <p class="text-sm text-slate-400 mb-4">
+                                    The <code class="text-spine-300">getTrackStreamUrl</code> method receives the ID you
+                                    returned in Step 2.
+                                    It must return a direct, playable audio URL (MP3, FLAC, M4A).
+                                </p>
+                                <pre class="language-javascript"><code><span class="code-function">getTrackStreamUrl</span>: <span class="code-keyword"></span> (trackId, quality) => {
+    console.log(<span class="code-string">'Fetching stream for:'</span>, trackId);
+
+    <span class="code-comment">// 1. Call your API to get the download/stream link</span>
+    <span class="code-keyword">const</span> res = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">`https://my-api.com/stream/${trackId}`</span>);
+    <span class="code-keyword">const</span> json = <span class="code-keyword">await</span> res.<span class="code-function">json</span>();
+
+    <span class="code-comment">// 2. Return the direct URL</span>
+    <span class="code-keyword">return</span> {
+        <span class="code-string">streamUrl</span>: json.direct_audio_link, 
+        <span class="code-string">track</span>: { 
+            <span class="code-string">id</span>: trackId,
+            <span class="code-string">audioQuality</span>: <span class="code-string">'HIGH'</span> 
+        }
+    };
++},</code></pre>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div class="step-item">
+                                <h3 class="text-xl font-bold text-white mb-2">Final Return</h3>
+                                <p class="text-sm text-slate-400 mb-4">
+                                    Finally, ensure your file ends by returning the object. This is how the Module
+                                    Manager loads it.
+                                </p>
+                                <pre class="language-javascript"><code><span class="code-comment">// ... inside your module file ...</span>
+
+<span class="code-keyword">return</span> MY_MODULE; </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Module Structure Reference -->
+                <section id="module-structure" class="mb-20 scroll-mt-24">
+                    <h2 class="section-header text-2xl font-bold text-white mb-6">Standard Contract Reference</h2>
+                    <p class="text-slate-300 mb-6">
+                        For advanced developers, here is the complete interface definition.
+                    </p>
+
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 mb-8">
+                        <div class="flex border-b border-slate-800">
+                            <button
+                                class="px-4 py-2 text-sm text-spine-400 border-b-2 border-spine-500 font-medium">Module
+                                Interface</button>
+                        </div>
+                        <div class="p-0">
+                            <pre class="language-javascript rounded-t-none border-none"><code id="code-interface">
+<span class="code-comment">// A module is an object returned by the script</span>
+<span class="code-keyword">return</span> {
+    <span class="code-comment">// -- Metadata --</span>
+    <span class="code-string">id</span>: <span class="code-string">'string'</span>,      <span class="code-comment">// Unique identifier</span>
+    <span class="code-string">name</span>: <span class="code-string">'string'</span>,     <span class="code-comment">// Display name in UI</span>
+    <span class="code-string">version</span>: <span class="code-string">'string'</span>,            <span class="code-comment">// Semantic versioning</span>
+    <span class="code-string">labels</span>: [<span class="code-string">'string'</span>], <span class="code-comment">// UI Tags</span>
+
+    <span class="code-comment">// -- Core Methods --</span>
+    
+    <span class="code-comment">/**
+     * Search for tracks.
+     * @param {string} query - The search string
+     * @param {number} limit - Max results
+     */</span>
+    <span class="code-function">searchTracks</span>: <span class="code-keyword"></span> (query, limit) => { ... },
+
+    <span class="code-comment">/**
+     * Get the direct audio stream URL.
+     * @param {string} id - The track ID (from search results)
+     * @param {string} quality - 'LOSSLESS', 'HIGH', 'LOW'
+     */</span>
+    <span class="code-function">getTrackStreamUrl</span>: <span class="code-keyword"></span> (id, quality) => { ... },
+
+    <span class="code-comment">// -- Optional Methods --</span>
+    <span class="code-function">getAlbum</span>: <span class="code-keyword"></span> (id) => { ... },
+    <span class="code-function">getArtist</span>: <span class="code-keyword"></span> (id) => { ... }
+};</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Reference -->
+                <section id="api-reference" class="mb-20 scroll-mt-24">
+                    <h2 class="section-header text-2xl font-bold text-white mb-8">API Reference</h2>
+
+                    <div class="space-y-8">
+                        <!-- Method 1 -->
+                        <div class="border-l-2 border-spine-500 pl-4">
+                            <h3 class="font-mono text-lg text-white font-bold mb-2">searchTracks(query, limit)</h3>
+                            <p class="text-slate-400 text-sm mb-3">Searches the module's database for tracks.</p>
+                            <div class="grid grid-cols-[100px_1fr] gap-4 text-sm mb-3">
+                                <div class="text-slate-500">Params</div>
+                                <div>
+                                    <code class="text-spine-300">query</code> (string): The user's search input.<br>
+                                    <code class="text-spine-300">limit</code> (number): Max items to return (usually
+                                    10-50).
+                                </div>
+                                <div class="text-slate-500">Returns</div>
+                                <div><code
+                                        class="text-slate-300">Promise&lt;{ tracks: Track[], total: number }&gt;</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Method 2 -->
+                        <div class="border-l-2 border-spine-500 pl-4">
+                            <h3 class="font-mono text-lg text-white font-bold mb-2">getTrackStreamUrl(id, quality)</h3>
+                            <p class="text-slate-400 text-sm mb-3">Resolves a track ID to a playable URL.</p>
+                            <div class="grid grid-cols-[100px_1fr] gap-4 text-sm mb-3">
+                                <div class="text-slate-500">Params</div>
+                                <div>
+                                    <code class="text-spine-300">id</code> (string/number): The ID returned from
+                                    searchTracks.<br>
+                                    <code class="text-spine-300">quality</code> (string): Requested quality ('LOSSLESS'
+                                    | 'HIGH').
+                                </div>
+                                <div class="text-slate-500">Returns</div>
+                                <div><code
+                                        class="text-slate-300">Promise&lt;{ streamUrl: string, track: Track }&gt;</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Method 3 -->
+                        <div class="border-l-2 border-slate-700 pl-4 opacity-75">
+                            <h3 class="font-mono text-lg text-white font-bold mb-2">getAlbum(id) <span
+                                    class="text-xs font-sans font-normal text-slate-500 border border-slate-700 px-1 rounded ml-2">Optional</span>
+                            </h3>
+                            <p class="text-slate-400 text-sm mb-3">Fetches album details and tracklist.</p>
+                            <div class="grid grid-cols-[100px_1fr] gap-4 text-sm mb-3">
+                                <div class="text-slate-500">Returns</div>
+                                <div><code
+                                        class="text-slate-300">Promise&lt;{ album: AlbumInfo, tracks: Track[] }&gt;</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="mt-24 pt-12 border-t border-slate-800 text-center pb-12">
+                    <p class="text-slate-500 text-sm">© -2025-2026 8SPINE Module Engine. Built for high-fidelity audio.
+                    </p>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar Toggle for Mobile
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const links = sidebar.querySelectorAll('a');
+
+        function toggleSidebar() {
+            const isClosed = sidebar.classList.contains('-translate-x-full');
+            if (isClosed) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Close sidebar on link click (mobile)
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 1024) {
+                    toggleSidebar();
+                }
+            });
+        });
+
+        // Basic syntax highlighting helper (for the keywords in the HTML)
+        // This runs after load to ensuring colors are applied if classes were missed
+        // Highlighting active section logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('aside nav a');
+            // The scroll is happening on the 'main' element, not window!
+            const mainContent = document.querySelector('main');
+
+            mainContent.addEventListener('scroll', () => {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    // Adjust offset for better trigger point
+                    if (mainContent.scrollTop >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('text-white', 'bg-slate-800');
+                    link.classList.add('text-slate-300');
+
+                    // Only highlight if we have a current section
+                    if (current && link.getAttribute('href') === '#' + current) {
+                        link.classList.add('text-white', 'bg-slate-800');
+                        link.classList.remove('text-slate-300');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

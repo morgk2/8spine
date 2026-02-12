@@ -10,8 +10,9 @@ function App() {
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
-        const response = await fetch('https://corsproxy.io/?' + encodeURIComponent('https://api.deezer.com/playlist/3155776842/tracks?limit=100'))
-        const data = await response.json()
+        const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://api.deezer.com/playlist/3155776842/tracks?limit=100'))
+        const outerData = await response.json()
+        const data = JSON.parse(outerData.contents)
         if (data.data && Array.isArray(data.data)) {
           const albumList = data.data.map(track => track.album)
           const uniqueAlbums = Array.from(new Map(albumList.map(item => [item.id, item])).values())
@@ -90,7 +91,7 @@ function App() {
             </button>
             <button
               className="btn btn-secondary"
-              onClick={() => navigate('/documentation')}
+              onClick={() => window.location.href = '/documentation.html'}
             >
               DOCUMENTATION
             </button>
