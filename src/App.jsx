@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
-        const response = await fetch('/api/deezer/playlist/3155776842/tracks?limit=100')
+        const response = await fetch('https://corsproxy.io/?' + encodeURIComponent('https://api.deezer.com/playlist/3155776842/tracks?limit=100'))
         const data = await response.json()
         if (data.data && Array.isArray(data.data)) {
           const albumList = data.data.map(track => track.album)
